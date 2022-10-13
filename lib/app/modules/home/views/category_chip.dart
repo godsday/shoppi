@@ -17,7 +17,7 @@ class Catchip extends StatelessWidget {
         child: Chip(
           label: Text(filter),
           backgroundColor:
-              homeController.selFilter == filter ? Colors.amber : Colors.grey,
+              homeController.selFilter == filter ? Colors.amber : Colors.grey.shade300,
         ),
       ),
     );

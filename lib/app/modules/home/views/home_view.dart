@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
+import 'package:shimmer/shimmer.dart';
 import '../controllers/home_controller.dart';
+import 'bottom_sbmitt_button.dart';
 import 'category_chip.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -72,6 +72,23 @@ class HomeView extends GetView<HomeController> {
                                             child: CachedNetworkImage(
                                               imageUrl: "${dataAtIndex.pImage}",
                                               fit: BoxFit.fill,
+                                              placeholder: (context, url) =>
+                                                  SizedBox(
+                                                width: 100.0,
+                                                height: 140.0,
+                                                child: Shimmer.fromColors(
+                                                  baseColor: Colors.grey,
+                                                  highlightColor: Colors.white,
+                                                  child: Container(
+                                                    color: Colors.amber,
+                                                    width: 100,
+                                                    height: 140,
+                                                  ),
+                                                ),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      const Icon(Icons.error),
                                             ),
                                           ),
                                         ),
@@ -81,7 +98,7 @@ class HomeView extends GetView<HomeController> {
                                       ),
                                       SizedBox(
                                         width: 140,
-                                        // height: 30,
+                                      
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -178,49 +195,7 @@ class HomeView extends GetView<HomeController> {
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
-      floatingActionButton: GetBuilder<HomeController>(
-        builder: (context) {
-          return homeController.cartList.isNotEmpty
-              ? FloatingActionButton.extended(
-                  onPressed: () {
-                    Get.defaultDialog(
-                        title: "Order List",
-                        middleText: "",
-                        actions: [
-                          Center(
-                            child: SizedBox(
-                              width: width - 10,
-                              height: height - 290,
-                              child: ListView.builder(
-                                itemCount: homeController.cartList.length,
-                                itemBuilder: (context, index) => ListTile(
-                                  trailing: Text(
-                                      "${homeController.cartList[index].count}",
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold)),
-                                  title: Text(
-                                      "${homeController.cartList[index].pName}",
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ),
-                            ),
-                          ),
-                          ElevatedButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: const Text(
-                                "CONFIRM ORDER",
-                              ))
-                        ]);
-                  },
-                  label: const Text("SUBMIT"))
-              : const SizedBox();
-        },
-      ),
+      floatingActionButton: FloatingButton(homeController: homeController, width: width, height: height),
     );
   }
 }
