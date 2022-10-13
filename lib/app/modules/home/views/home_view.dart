@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
+import 'category_chip.dart';
 
 class HomeView extends GetView<HomeController> {
   final homeController = Get.put(HomeController());
@@ -105,13 +106,9 @@ class HomeView extends GetView<HomeController> {
                                             ),
                                             Text(dataAtIndex.pDetails
                                                 .toString()),
-                                            // Text(dataAtIndex.pCategory
-                                            //     .toString()),
-
                                             const SizedBox(
                                               height: 10,
                                             ),
-
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -142,7 +139,6 @@ class HomeView extends GetView<HomeController> {
                                           children: [
                                             IconButton(
                                                 onPressed: () {
-                                                  // print("${homeComtroller.data[index].count}");
                                                   homeController
                                                       .incrementButton(
                                                           dataAtIndex);
@@ -187,59 +183,43 @@ class HomeView extends GetView<HomeController> {
           return homeController.cartList.isNotEmpty
               ? FloatingActionButton.extended(
                   onPressed: () {
-                    // print("${homeController.cartList.first.toString()}");
-
-                    // Get.defaultDialog(title: "Odered List",actions: [
-                    // ListView.builder(itemCount: homeController.cartList.length,
-                    // itemBuilder:(context, index) =>ListTile(title: Text("${homeController.cartList[index].}"),) ),
-
-                    // ElevatedButton(onPressed: (){}, child: Text("Confirm Order"))]);
                     Get.defaultDialog(
-                      title: "Order List",
-                      middleText: "",
-                     actions:[  Center(
-                        child: SizedBox(
-                          width: width-10,
-                          height: height-290,
-                          
-                          child: ListView.builder(
-                            itemCount: homeController.cartList.length,
-                            itemBuilder: (context, index) => ListTile( trailing: Text(
-                                  "${homeController.cartList[index].count}"), 
-                              title: Text(
-                                  "${homeController.cartList[index].pName}"),
+                        title: "Order List",
+                        middleText: "",
+                        actions: [
+                          Center(
+                            child: SizedBox(
+                              width: width - 10,
+                              height: height - 290,
+                              child: ListView.builder(
+                                itemCount: homeController.cartList.length,
+                                itemBuilder: (context, index) => ListTile(
+                                  trailing: Text(
+                                      "${homeController.cartList[index].count}",
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold)),
+                                  title: Text(
+                                      "${homeController.cartList[index].pName}",
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      ElevatedButton(onPressed: (){}, child: Text("CONFIRM ORDER",style: tEXT,))
-                      ]
-                    );
+                          ElevatedButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              child: const Text(
+                                "CONFIRM ORDER",
+                              ))
+                        ]);
                   },
                   label: const Text("SUBMIT"))
               : const SizedBox();
         },
-      ),
-    );
-  }
-}
-
-class Catchip extends StatelessWidget {
-  Catchip({super.key, required this.filter});
-  final homeController = Get.find<HomeController>();
-  final String filter;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => homeController.filter(filter: filter),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Chip(
-          label: Text(filter),
-          backgroundColor:
-              homeController.selFilter == filter ? Colors.amber : Colors.grey,
-        ),
       ),
     );
   }
