@@ -16,7 +16,7 @@ class HomeView extends GetView<HomeController> {
     final height = Get.height;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomeView'),
+        title: const Text('Shoppi'),
         centerTitle: true,
       ),
       body: SizedBox(
